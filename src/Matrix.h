@@ -97,6 +97,7 @@ class Matrix: public node::ObjectWrap {
 
     JSFUNC(MatchTemplate)
     JSFUNC(MinMaxLoc)
+    JSFUNC(Moments)
 
     JSFUNC(PushBack)
 

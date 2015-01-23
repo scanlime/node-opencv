@@ -83,6 +83,7 @@ Matrix::Init(Handle<Object> target) {
 	NODE_SET_PROTOTYPE_METHOD(ctor, "floodFill", FloodFill);
 	NODE_SET_PROTOTYPE_METHOD(ctor, "matchTemplate", MatchTemplate);
 	NODE_SET_PROTOTYPE_METHOD(ctor, "minMaxLoc", MinMaxLoc);
+	NODE_SET_PROTOTYPE_METHOD(ctor, "moments", Moments);
 	NODE_SET_PROTOTYPE_METHOD(ctor, "pushBack", PushBack);
 	NODE_SET_PROTOTYPE_METHOD(ctor, "putText", PutText);
   NODE_SET_PROTOTYPE_METHOD(ctor, "getPerspectiveTransform", GetPerspectiveTransform);
@@ -1797,6 +1798,22 @@ NAN_METHOD(Matrix::MinMaxLoc) {
   NanReturnValue(result);
 }
 
+NAN_METHOD(Matrix::Moments) {
+  NanScope();
+
+  Matrix *self = ObjectWrap::Unwrap<Matrix>(args.This());
+
+  cv::Moments mu = cv::moments( self->mat, false );
+
+  Local<Object> res = NanNew<Object>();
+
+  res->Set(NanNew("m00"), NanNew<Number>(mu.m00));
+  res->Set(NanNew("m10"), NanNew<Number>(mu.m10));
+  res->Set(NanNew("m01"), NanNew<Number>(mu.m01));
+  res->Set(NanNew("m11"), NanNew<Number>(mu.m11));
+
+  NanReturnValue(res);
+}
 
 // @author ytham
 // Pushes some matrix (argument) the back of a matrix (self)
